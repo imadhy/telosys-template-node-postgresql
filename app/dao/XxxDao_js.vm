@@ -109,8 +109,8 @@
 #end
 #end
 
-// Load $entity entity
-const $entity = require('../model/$uncapitalizedEntityName');
+// Load ${entity.name} entity
+const ${entity.name} = require('../model/${entity.name}');
 
 // Load DAO Common functions
 const GenericDao = require('./commons/genericDao');
@@ -129,9 +129,9 @@ const sqlInsert = "INSERT into $uncapitalizedEntityName ($sqlFindAttribs) VALUES
 #end
 
 /**
- * DAO of entity ${entity}
+ * DAO of entity ${entity.name}
  */
-module.exports = class ${entity}Dao {
+module.exports = class ${entity.name}Dao {
 
     constructor() {
         this.genericDao = new GenericDao(
@@ -157,7 +157,7 @@ module.exports = class ${entity}Dao {
         return this.genericDao.findOne(sqlParams)
             .then(row => {
                 if(row) {
-                    return new ${entity}($modelRows);
+                    return new ${entity.name}($modelRows);
                 } else {
                     return false;
                 }
@@ -173,7 +173,7 @@ module.exports = class ${entity}Dao {
             let ${uncapitalizedEntityName}s = [];
             if (rows) {
                 for (const row of rows) {
-                    ${uncapitalizedEntityName}s.push(new ${entity}($modelRows));
+                    ${uncapitalizedEntityName}s.push(new ${entity.name}($modelRows));
                 }
             }
             return ${uncapitalizedEntityName}s;
@@ -190,24 +190,24 @@ module.exports = class ${entity}Dao {
 
     /**
      * Updates the given entity in the database
-     * @param $entity
+     * @param ${entity.name}
      * @return true if the entity has been updated, false if not found and not updated
      */
-    update($entity) {
+    update(${entity.name}) {
         let sqlParams = {
 #foreach ( $attrib in $entity.attributes)
 #set ( $uncapitalizedAttribName = ${fn.uncapitalize($attrib.name)})
 #if ($foreach.count < $entity.attributes.size())
 #if ( $attrib.isDateType() )
- 			${uncapitalizedAttribName}: new Date(${entity}.${uncapitalizedAttribName}).toISOString(),
+ 			${uncapitalizedAttribName}: new Date(${entity.name}.${uncapitalizedAttribName}).toISOString(),
 #else
- 			${uncapitalizedAttribName}: ${entity}.${uncapitalizedAttribName},
+ 			${uncapitalizedAttribName}: ${entity.name}.${uncapitalizedAttribName},
 #end
 #else
 #if ( $attrib.isDateType() )
- 			${uncapitalizedAttribName}: new Date(${entity}.${uncapitalizedAttribName}).toISOString()
+ 			${uncapitalizedAttribName}: new Date(${entity.name}.${uncapitalizedAttribName}).toISOString()
 #else
- 			${uncapitalizedAttribName}: ${entity}.${uncapitalizedAttribName}
+ 			${uncapitalizedAttribName}: ${entity.name}.${uncapitalizedAttribName}
 #end
 #end
 #end
@@ -217,16 +217,16 @@ module.exports = class ${entity}Dao {
 
     /**
      * Save the given entity in the database in case it exist, else create a new one
-     * @param $entity
+     * @param ${entity.name}
      * @return the updated or created entity
      */
-    save($entity) {
-        return this.exists($entity).then(exist => {
+    save(${entity.name}) {
+        return this.exists(${entity.name}).then(exist => {
             if(exist) {
-                return this.update($entity).then(result => {
+                return this.update(${entity.name}).then(result => {
                     if (result === true) {
                         return {
-                            body: $entity,
+                            body: ${entity.name},
                             newItem: false
                         };
                     } else {
@@ -234,7 +234,7 @@ module.exports = class ${entity}Dao {
                     }
                 });
             } else {
-                return this.create($entity).then(result => {
+                return this.create(${entity.name}).then(result => {
                     if (result) {
                         return {
                             body: result,
@@ -250,10 +250,10 @@ module.exports = class ${entity}Dao {
 
     /**
      * Creates the given entity in the database
-     * @param $entity
+     * @param ${entity.name}
      * returns database insertion status
      */
-    create($entity) {
+    create(${entity.name}) {
         let sqlParams = {
 #if ($entity.hasAutoIncrementedKey())
 #foreach ( $attrib in $entity.nonKeyAttributes)
@@ -332,10 +332,10 @@ module.exports = class ${entity}Dao {
 
     /**
      * Deletes an entity using the entity
-     * @param $entity
+     * @param ${entity.name}
      * returns database deletion status
      */
-    delete($entity) {
+    delete(${entity.name}) {
         let sqlParams = {
  			$sqlPrimaryKeyParams
         };
@@ -356,10 +356,10 @@ module.exports = class ${entity}Dao {
 
     /**
      * Returns true if an entity exists using the entity
-     * @param $entity
+     * @param ${entity.name}
      * returns database entry existence status (true/false)
      */
-    exists($entity) {
+    exists(${entity.name}) {
         let sqlParams = {
             $sqlPrimaryKeyParams
         };

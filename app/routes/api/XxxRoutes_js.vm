@@ -17,11 +17,11 @@ const express = require('express');
 const router = express.Router();
 
 // Load controller
-const ${entity}Controller = require('../../controller/${uncapitalizedEntityName}Controller');
-const ${uncapitalizedEntityName}Controller = new ${entity}Controller();
+const ${entity.name}Controller = require('../../controller/${entity.name}Controller');
+const ${uncapitalizedEntityName}Controller = new ${entity.name}Controller();
 
 /**
- * $entity API routes
+ * ${entity.name} API routes
  */
 
 router.get('/count', function (req, res) {
