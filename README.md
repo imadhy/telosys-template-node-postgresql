@@ -10,7 +10,7 @@ Therefore, the installation is pretty much similar, the only difference is :
 
 In the templates telosys-tools.cfg file, add the following line  
 ```
-POSTGRE_CONNECT=postgres://user:password@host/database
+ProjectVariable.POSTGRE_CONNECT=postgres://user:password@host/database
 ```  
 And edit it with the correct informations. This will make Telosys generator add your database connection parameters in the "config/dbconfig.js" file (or you can directly edit the dbconfig.js file if you want).
 
